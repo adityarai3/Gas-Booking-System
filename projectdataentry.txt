@@ -1,0 +1,608 @@
+SQL> connect system as sysdba;
+Connected.
+SQL> show pdbs;
+
+    CON_ID CON_NAME                       OPEN MODE  RESTRICTED                 
+---------- ------------------------------ ---------- ----------                 
+         2 PDB$SEED                       READ ONLY  NO                         
+         3 XEPDB1                         READ WRITE NO                         
+         4 ONLINE_GAS_BOOKING_SYSTEM      MOUNTED                               
+SQL> connect ONLINE_GAS_BOOKING_SYSTEM as sysdba;
+Connected.
+SQL> desc customers;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CUSTOMER_ID                               NOT NULL NUMBER(38)
+ NAME                                               VARCHAR2(200)
+ ADDRESS                                            VARCHAR2(200)
+ MOBILE                                    NOT NULL NUMBER(38)
+
+SQL> desc stock;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ BATCH_NO                                  NOT NULL NUMBER(38)
+ TYPE                                               VARCHAR2(10)
+ QUANTITY                                           NUMBER(38)
+
+SQL> insert into customers values(&customer_id,'&name','&address',&mobile);
+Enter value for customer_id: 10387
+Enter value for name: Anderson Silva
+Enter value for address: KTR, Chennai
+Enter value for mobile: 9874561235
+old   1: insert into customers values(&customer_id,'&name','&address',&mobile)
+new   1: insert into customers values(10387,'Anderson Silva','KTR, Chennai',9874561235)
+
+1 row created.
+
+SQL> /
+Enter value for customer_id: 10795
+Enter value for name: Gelson Martins
+Enter value for address: MCO, Chennai
+Enter value for mobile: 6897451354
+old   1: insert into customers values(&customer_id,'&name','&address',&mobile)
+new   1: insert into customers values(10795,'Gelson Martins','MCO, Chennai',6897451354)
+
+1 row created.
+
+SQL> /
+Enter value for customer_id: 10732
+Enter value for name: Inaki Williams
+Enter value for address: Sevilla, Bangaluru
+Enter value for mobile: 9684521654
+old   1: insert into customers values(&customer_id,'&name','&address',&mobile)
+new   1: insert into customers values(10732,'Inaki Williams','Sevilla, Bangaluru',9684521654)
+
+1 row created.
+
+SQL> /
+Enter value for customer_id: 10894
+Enter value for name: Paulo Dybala
+Enter value for address: Turin, Coimbatore
+Enter value for mobile: 9988651423
+old   1: insert into customers values(&customer_id,'&name','&address',&mobile)
+new   1: insert into customers values(10894,'Paulo Dybala','Turin, Coimbatore',9988651423)
+
+1 row created.
+
+SQL> /
+Enter value for customer_id: 10338
+Enter value for name: Gareth Bale
+Enter value for address: Wales, Chennai
+Enter value for mobile: 9874561325
+old   1: insert into customers values(&customer_id,'&name','&address',&mobile)
+new   1: insert into customers values(10338,'Gareth Bale','Wales, Chennai',9874561325)
+
+1 row created.
+
+SQL> select * from customers;
+
+CUSTOMER_ID                                                                     
+-----------                                                                     
+NAME                                                                            
+--------------------------------------------------------------------------------
+ADDRESS                                                                         
+--------------------------------------------------------------------------------
+    MOBILE                                                                      
+----------                                                                      
+      10387                                                                     
+Anderson Silva                                                                  
+KTR, Chennai                                                                    
+9874561235                                                                      
+                                                                                
+
+CUSTOMER_ID                                                                     
+-----------                                                                     
+NAME                                                                            
+--------------------------------------------------------------------------------
+ADDRESS                                                                         
+--------------------------------------------------------------------------------
+    MOBILE                                                                      
+----------                                                                      
+      10795                                                                     
+Gelson Martins                                                                  
+MCO, Chennai                                                                    
+6897451354                                                                      
+                                                                                
+
+CUSTOMER_ID                                                                     
+-----------                                                                     
+NAME                                                                            
+--------------------------------------------------------------------------------
+ADDRESS                                                                         
+--------------------------------------------------------------------------------
+    MOBILE                                                                      
+----------                                                                      
+      10732                                                                     
+Inaki Williams                                                                  
+Sevilla, Bangaluru                                                              
+9684521654                                                                      
+                                                                                
+
+CUSTOMER_ID                                                                     
+-----------                                                                     
+NAME                                                                            
+--------------------------------------------------------------------------------
+ADDRESS                                                                         
+--------------------------------------------------------------------------------
+    MOBILE                                                                      
+----------                                                                      
+      10894                                                                     
+Paulo Dybala                                                                    
+Turin, Coimbatore                                                               
+9988651423                                                                      
+                                                                                
+
+CUSTOMER_ID                                                                     
+-----------                                                                     
+NAME                                                                            
+--------------------------------------------------------------------------------
+ADDRESS                                                                         
+--------------------------------------------------------------------------------
+    MOBILE                                                                      
+----------                                                                      
+      10338                                                                     
+Gareth Bale                                                                     
+Wales, Chennai                                                                  
+9874561325                                                                      
+                                                                                
+
+SQL> alter table customers
+  2  modify name varchar(20);
+
+Table altered.
+
+SQL> alter table customers
+  2  modify address varchar(20);
+
+Table altered.
+
+SQL> select * from customers;
+
+CUSTOMER_ID NAME                 ADDRESS                  MOBILE                
+----------- -------------------- -------------------- ----------                
+      10387 Anderson Silva       KTR, Chennai         9874561235                
+      10795 Gelson Martins       MCO, Chennai         6897451354                
+      10732 Inaki Williams       Sevilla, Bangaluru   9684521654                
+      10894 Paulo Dybala         Turin, Coimbatore    9988651423                
+      10338 Gareth Bale          Wales, Chennai       9874561325                
+
+SQL> commit;
+
+Commit complete.
+
+SQL> desc stock;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ BATCH_NO                                  NOT NULL NUMBER(38)
+ TYPE                                               VARCHAR2(10)
+ QUANTITY                                           NUMBER(38)
+
+SQL> desc bill;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ BILL_ID                                   NOT NULL NUMBER(38)
+ AMOUNT                                             NUMBER(38)
+ CUSTOMER_ID                                        NUMBER(38)
+
+SQL> insert into bill values(&bill_id,&amount,&customer_id);
+Enter value for bill_id: 2890
+Enter value for amount: 3300
+Enter value for customer_id: 10387
+old   1: insert into bill values(&bill_id,&amount,&customer_id)
+new   1: insert into bill values(2890,3300,10387)
+
+1 row created.
+
+SQL> /
+Enter value for bill_id: 2892
+Enter value for amount: 3100
+Enter value for customer_id: 10795
+old   1: insert into bill values(&bill_id,&amount,&customer_id)
+new   1: insert into bill values(2892,3100,10795)
+
+1 row created.
+
+SQL> /
+Enter value for bill_id: 2894
+Enter value for amount: 2800
+Enter value for customer_id: 10732
+old   1: insert into bill values(&bill_id,&amount,&customer_id)
+new   1: insert into bill values(2894,2800,10732)
+
+1 row created.
+
+SQL> /
+Enter value for bill_id: 2896
+Enter value for amount: 3700
+Enter value for customer_id: 10894
+old   1: insert into bill values(&bill_id,&amount,&customer_id)
+new   1: insert into bill values(2896,3700,10894)
+
+1 row created.
+
+SQL> /
+Enter value for bill_id: 2900
+Enter value for amount: 4500
+Enter value for customer_id: 10338
+old   1: insert into bill values(&bill_id,&amount,&customer_id)
+new   1: insert into bill values(2900,4500,10338)
+
+1 row created.
+
+SQL> select * from bill;
+
+   BILL_ID     AMOUNT CUSTOMER_ID                                               
+---------- ---------- -----------                                               
+      2890       3300       10387                                               
+      2892       3100       10795                                               
+      2894       2800       10732                                               
+      2896       3700       10894                                               
+      2900       4500       10338                                               
+
+SQL> commit;
+
+Commit complete.
+
+SQL> insert into stock values(&batch_no,'&type',&quantity);
+Enter value for batch_no: 34
+Enter value for type: S-CYL
+Enter value for quantity: 234
+old   1: insert into stock values(&batch_no,'&type',&quantity)
+new   1: insert into stock values(34,'S-CYL',234)
+
+1 row created.
+
+SQL> /
+Enter value for batch_no: 72
+Enter value for type: L-CYL
+Enter value for quantity: 187
+old   1: insert into stock values(&batch_no,'&type',&quantity)
+new   1: insert into stock values(72,'L-CYL',187)
+
+1 row created.
+
+SQL> /
+Enter value for batch_no: 25
+Enter value for type: PIPES
+Enter value for quantity: 481
+old   1: insert into stock values(&batch_no,'&type',&quantity)
+new   1: insert into stock values(25,'PIPES',481)
+
+1 row created.
+
+SQL> /
+Enter value for batch_no: 53
+Enter value for type: Regulators
+Enter value for quantity: 785
+old   1: insert into stock values(&batch_no,'&type',&quantity)
+new   1: insert into stock values(53,'Regulators',785)
+
+1 row created.
+
+SQL> /
+Enter value for batch_no: 45
+Enter value for type: Stoves
+Enter value for quantity: 200
+old   1: insert into stock values(&batch_no,'&type',&quantity)
+new   1: insert into stock values(45,'Stoves',200)
+
+1 row created.
+
+SQL> select * from stock;
+
+  BATCH_NO TYPE         QUANTITY                                                
+---------- ---------- ----------                                                
+        34 S-CYL             234                                                
+        72 L-CYL             187                                                
+        25 PIPES             481                                                
+        53 Regulators        785                                                
+        45 Stoves            200                                                
+
+SQL> commit;
+
+Commit complete.
+
+SQL> desc lpg;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ GID                                                NUMBER(38)
+ WEIGHT                                             VARCHAR2(5)
+ TYPE                                               VARCHAR2(5)
+
+SQL> insert into lpg values(&gid,'&weight',&type');
+Enter value for gid: 234
+Enter value for weight: 15
+Enter value for type: S-CYL
+old   1: insert into lpg values(&gid,'&weight',&type')
+new   1: insert into lpg values(234,'15',S-CYL')
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> insert into lpg values(&gid,'&weight','&type');
+Enter value for gid: 234
+Enter value for weight: 15
+Enter value for type: S-CYL
+old   1: insert into lpg values(&gid,'&weight','&type')
+new   1: insert into lpg values(234,'15','S-CYL')
+
+1 row created.
+
+SQL> /
+Enter value for gid: 238
+Enter value for weight: 15
+Enter value for type: S-CYL
+old   1: insert into lpg values(&gid,'&weight','&type')
+new   1: insert into lpg values(238,'15','S-CYL')
+
+1 row created.
+
+SQL> /
+Enter value for gid: 456
+Enter value for weight: 20
+Enter value for type: L-CYL
+old   1: insert into lpg values(&gid,'&weight','&type')
+new   1: insert into lpg values(456,'20','L-CYL')
+
+1 row created.
+
+SQL> /
+Enter value for gid: 472
+Enter value for weight: 20
+Enter value for type: L-CYL
+old   1: insert into lpg values(&gid,'&weight','&type')
+new   1: insert into lpg values(472,'20','L-CYL')
+
+1 row created.
+
+SQL> /
+Enter value for gid: 489
+Enter value for weight: 20
+Enter value for type: L-CYL
+old   1: insert into lpg values(&gid,'&weight','&type')
+new   1: insert into lpg values(489,'20','L-CYL')
+
+1 row created.
+
+SQL> SELECT * FROM LPG;
+
+       GID WEIGH TYPE                                                           
+---------- ----- -----                                                          
+       234 15    S-CYL                                                          
+       238 15    S-CYL                                                          
+       456 20    L-CYL                                                          
+       472 20    L-CYL                                                          
+       489 20    L-CYL                                                          
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> DESC AGENCY;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ AGENCY_ID                                 NOT NULL NUMBER(38)
+ NAME                                               VARCHAR2(200)
+
+
+SQL> ALTER TABLE AGENCY
+  2  ADD ADDRESS VARCHAR(20);
+
+Table altered.
+
+SQL> DESC AGENCY;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ AGENCY_ID                                 NOT NULL NUMBER(38)
+ NAME                                               VARCHAR2(200)
+ ADDRESS                                            VARCHAR2(20)
+
+SQL> ALTER TABLE AGENCY
+  2  MODIFY NAME VARCHAR(20);
+
+Table altered.
+
+SQL> DESC AGENCY;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ AGENCY_ID                                 NOT NULL NUMBER(38)
+ NAME                                               VARCHAR2(20)
+ ADDRESS                                            VARCHAR2(20)
+
+
+
+SQL> insert into agency values(&agency_id,'&name','&address');
+Enter value for agency_id: 305
+Enter value for name: ADARSH AGENCY
+Enter value for address: CHENNAI
+old   1: insert into agency values(&agency_id,'&name','&address')
+new   1: insert into agency values(305,'ADARSH AGENCY','CHENNAI')
+
+1 row created.
+
+SQL> /
+Enter value for agency_id: 320
+Enter value for name: ADITYA AGENCY
+Enter value for address: INDORE
+old   1: insert into agency values(&agency_id,'&name','&address')
+new   1: insert into agency values(320,'ADITYA AGENCY','INDORE')
+
+1 row created.
+
+SQL> /
+Enter value for agency_id: 335
+Enter value for name: JOBBY AGENCY
+Enter value for address: BENGALURU
+old   1: insert into agency values(&agency_id,'&name','&address')
+new   1: insert into agency values(335,'JOBBY AGENCY','BENGALURU')
+
+1 row created.
+
+SQL> /
+Enter value for agency_id: 350
+Enter value for name: RAHUL AGENCY
+Enter value for address: COIMBATORE
+old   1: insert into agency values(&agency_id,'&name','&address')
+new   1: insert into agency values(350,'RAHUL AGENCY','COIMBATORE')
+
+1 row created.
+
+SQL> /
+Enter value for agency_id: 365
+Enter value for name: ANIKET AGENCY
+Enter value for address: BILANGIR
+old   1: insert into agency values(&agency_id,'&name','&address')
+new   1: insert into agency values(365,'ANIKET AGENCY','BILANGIR')
+
+1 row created.
+
+SQL> SELECT * FROM AGENCY;
+
+ AGENCY_ID NAME                 ADDRESS                                         
+---------- -------------------- --------------------                            
+       305 ADARSH AGENCY        CHENNAI                                         
+       320 ADITYA AGENCY        INDORE                                          
+       335 JOBBY AGENCY         BENGALURU                                       
+       350 RAHUL AGENCY         COIMBATORE                                      
+       365 ANIKET AGENCY        BILANGIR                                        
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> create table aniket(age int, weight int);
+
+Table created.
+
+SQL> insert into aniket values(&age,&weight);
+Enter value for age: 20
+Enter value for weight: 59
+old   1: insert into aniket values(&age,&weight)
+new   1: insert into aniket values(20,59)
+
+1 row created.
+
+SQL> truncate table aniket;
+
+Table truncated.
+
+SQL> update agency
+  2  set agency_id =369 where name='ANIKET AGENCY';
+
+1 row updated.
+
+
+SQL> insert into agency values(345,'PED AGENCY','MORADABAD');
+
+1 row created.
+
+SQL> DELETE FROM AGENCY WHERE AGENCY_ID=345;
+
+1 row deleted.
+
+SQL> ALTER TABLE AGENCY
+  2  ADD INFO VARCHAR(10);
+
+Table altered.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SAVEPOINT S1;
+
+Savepoint created.
+
+SQL> CREATE USER C##ANIKET IDENTIFIED BY ADMIN;
+
+User created.
+
+
+SQL> SELECT SUM(AMOUNT) FROM BILL;
+
+SUM(AMOUNT)                                                                     
+-----------                                                                     
+      17400                                                                     
+
+SQL> SELECT AVG(WEIGHT) FROM LPG;
+
+AVG(WEIGHT)                                                                     
+-----------                                                                     
+         18                                                                     
+
+SQL> SELECT BATCH_NO, QUANTITY FROM STOCK WHERE QUANTITY = (SELECT MAX(QUANTITY) FROM STOCK);
+
+  BATCH_NO   QUANTITY                                                           
+---------- ----------                                                           
+        53        785                                                           
+
+SQL> SELECT AGENCY_ID,NAME FROM AGENCY WHERE AGENCY_ID IN(SELECT AGENCY_ID FROM AGENCY WHERE ADDRESS='BENGALURU');
+
+ AGENCY_ID NAME                                                                 
+---------- --------------------                                                 
+       335 JOBBY AGENCY                                                         
+
+SQL> SELECT AGENCY_ID,NAME FROM AGENCY WHERE AGENCY_ID=ANY(SELECT AGENCY_ID FROM AGENCY WHERE ADDRESS='CHENNAI');
+
+ AGENCY_ID NAME                                                                 
+---------- --------------------                                                 
+       305 ADARSH AGENCY                                                        
+
+SQL> SELECT NAME FROM CUSTOMERS
+  2  UNION
+  3  SELECT NAME FROM AGENCY;
+
+NAME                                                                            
+--------------------                                                            
+ADARSH AGENCY                                                                   
+ADITYA AGENCY                                                                   
+ANIKET AGENCY                                                                   
+Anderson Silva                                                                  
+Gareth Bale                                                                     
+Gelson Martins                                                                  
+Inaki Williams                                                                  
+JOBBY AGENCY                                                                    
+Paulo Dybala                                                                    
+RAHUL AGENCY                                                                    
+
+10 rows selected.
+
+SQL> SELECT CUSTOMER_ID FROM CUSTOMERS
+  2  INTERSECT
+  3  SELECT CUSTOMER_ID FROM BILL;
+
+CUSTOMER_ID                                                                     
+-----------                                                                     
+      10338                                                                     
+      10387                                                                     
+      10732                                                                     
+      10795                                                                     
+      10894                                                                     
+
+SQL> SELECT AMOUNT FROM BILL
+  2  UNION ALL;///
+  3  
+SQL> SELECT ADDRESS FROM CUSTOMERS
+  2  UNION ALL
+  3  SELECT ADDRESS FROM AGENCY;
+
+ADDRESS                                                                         
+--------------------                                                            
+KTR, Chennai                                                                    
+MCO, Chennai                                                                    
+Sevilla, Bangaluru                                                              
+Turin, Coimbatore                                                               
+Wales, Chennai                                                                  
+CHENNAI                                                                         
+INDORE                                                                          
+BENGALURU                                                                       
+COIMBATORE                                                                      
+BILANGIR                                                                        
+
+10 rows selected.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SPOOL OFF;

@@ -1,0 +1,749 @@
+SQL> SELECT * FROM CUSTOMERS;
+
+CUSTOMER_ID NAME                 ADDRESS                  MOBILE                
+----------- -------------------- -------------------- ----------                
+      10387 Anderson Silva       KTR, CHENNAI         9874561235                
+      10795 GELSON MARTINS       MCO,CHENNAI          6897451354                
+      10732 INAKI WILLIAMS       SEVILLA, BENGALURU   9684521654                
+      10894 PAULO DYBALA         TURIN, COIMBATORE    9988651423                
+      10338 GARETH BALE          WALES, CHENNAI        987461325                
+
+SQL> SELECT * FROM AGENCY;
+
+ AGENCY_ID NAME                 ADDRESS                                         
+---------- -------------------- --------------------                            
+       305 ADARSH AGENCY        CHENNAI                                         
+       320 ADITYA AGENCY        INDORE                                          
+       335 JOBBY AGENCY         BENGALURU                                       
+       350 RAHUL AGENCY         COIMBATORE                                      
+       369 ANIKET AGENCY        BILANGIR                                        
+
+SQL> SELECT * FROM BILL;
+
+   BILL_ID     AMOUNT CUSTOMER_ID                                               
+---------- ---------- -----------                                               
+      2890       3300       10387                                               
+      2892       3100       10795                                               
+      2894       2800       10732                                               
+      2896       3700       10894                                               
+      2900       4500       10338                                               
+
+SQL> SELECT * FROM STOCK;
+
+  BATCH_NO TYPE         QUANTITY                                                
+---------- ---------- ----------                                                
+        34 S-CYL             234                                                
+        72 L-CYL             187                                                
+        25 PIPES             481                                                
+        53 REGULATORS        785                                                
+        45 STOVES            200                                                
+
+SQL> CREATE VIEW BILLSVIEW
+  2  AS SELECT a.customer_id,name,bill_id,amount
+  3  from customer a,bill b
+  4  where a.customer_id=b.customer_id;
+from customer a,bill b
+     *
+ERROR at line 3:
+ORA-00942: table or view does not exist 
+
+
+SQL> CREATE VIEW BILLSVIEW
+  2  AS SELECT a.customer_id,name,bill_id,amount
+  3  from customers a,bill b
+  4  where a.customer_id=b.customer_id;
+
+View created.
+
+SQL> select * from BILLSVIEW;
+
+CUSTOMER_ID NAME                    BILL_ID     AMOUNT                          
+----------- -------------------- ---------- ----------                          
+      10387 Anderson Silva             2890       3300                          
+      10795 GELSON MARTINS             2892       3100                          
+      10732 INAKI WILLIAMS             2894       2800                          
+      10894 PAULO DYBALA               2896       3700                          
+      10338 GARETH BALE                2900       4500                          
+
+SQL> CREATE VIEW BILLSVIEW
+  2  AS SELECT a.customer_id,name,bill_id,amount
+  3  from customers a natural join bill b
+  4  on a.customer_id=b.customer_id;
+on a.customer_id=b.customer_id
+*
+ERROR at line 4:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> CREATE VIEW BILLSVIEW
+  2  AS SELECT a.customer_id,a.name,b.bill_id,b.amount
+  3  from customers a natural join bill b
+  4  on a.customer_id=b.customer_id;
+on a.customer_id=b.customer_id
+*
+ERROR at line 4:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> select * from customers natural join bill;
+
+CUSTOMER_ID NAME                 ADDRESS                  MOBILE    BILL_ID     
+----------- -------------------- -------------------- ---------- ----------     
+    AMOUNT                                                                      
+----------                                                                      
+      10387 Anderson Silva       KTR, CHENNAI         9874561235       2890     
+      3300                                                                      
+                                                                                
+      10795 GELSON MARTINS       MCO,CHENNAI          6897451354       2892     
+      3100                                                                      
+                                                                                
+      10732 INAKI WILLIAMS       SEVILLA, BENGALURU   9684521654       2894     
+      2800                                                                      
+                                                                                
+
+CUSTOMER_ID NAME                 ADDRESS                  MOBILE    BILL_ID     
+----------- -------------------- -------------------- ---------- ----------     
+    AMOUNT                                                                      
+----------                                                                      
+      10894 PAULO DYBALA         TURIN, COIMBATORE    9988651423       2896     
+      3700                                                                      
+                                                                                
+      10338 GARETH BALE          WALES, CHENNAI        987461325       2900     
+      4500                                                                      
+                                                                                
+
+SQL> select * from agency natural join stock;
+
+ AGENCY_ID NAME                 ADDRESS                BATCH_NO TYPE            
+---------- -------------------- -------------------- ---------- ----------      
+  QUANTITY                                                                      
+----------                                                                      
+       305 ADARSH AGENCY        CHENNAI                      34 S-CYL           
+       234                                                                      
+                                                                                
+       305 ADARSH AGENCY        CHENNAI                      72 L-CYL           
+       187                                                                      
+                                                                                
+       305 ADARSH AGENCY        CHENNAI                      25 PIPES           
+       481                                                                      
+                                                                                
+
+ AGENCY_ID NAME                 ADDRESS                BATCH_NO TYPE            
+---------- -------------------- -------------------- ---------- ----------      
+  QUANTITY                                                                      
+----------                                                                      
+       305 ADARSH AGENCY        CHENNAI                      53 REGULATORS      
+       785                                                                      
+                                                                                
+       305 ADARSH AGENCY        CHENNAI                      45 STOVES          
+       200                                                                      
+                                                                                
+       320 ADITYA AGENCY        INDORE                       34 S-CYL           
+       234                                                                      
+                                                                                
+
+ AGENCY_ID NAME                 ADDRESS                BATCH_NO TYPE            
+---------- -------------------- -------------------- ---------- ----------      
+  QUANTITY                                                                      
+----------                                                                      
+       320 ADITYA AGENCY        INDORE                       72 L-CYL           
+       187                                                                      
+                                                                                
+       320 ADITYA AGENCY        INDORE                       25 PIPES           
+       481                                                                      
+                                                                                
+       320 ADITYA AGENCY        INDORE                       53 REGULATORS      
+       785                                                                      
+                                                                                
+
+ AGENCY_ID NAME                 ADDRESS                BATCH_NO TYPE            
+---------- -------------------- -------------------- ---------- ----------      
+  QUANTITY                                                                      
+----------                                                                      
+       320 ADITYA AGENCY        INDORE                       45 STOVES          
+       200                                                                      
+                                                                                
+       335 JOBBY AGENCY         BENGALURU                    34 S-CYL           
+       234                                                                      
+                                                                                
+       335 JOBBY AGENCY         BENGALURU                    72 L-CYL           
+       187                                                                      
+                                                                                
+
+ AGENCY_ID NAME                 ADDRESS                BATCH_NO TYPE            
+---------- -------------------- -------------------- ---------- ----------      
+  QUANTITY                                                                      
+----------                                                                      
+       335 JOBBY AGENCY         BENGALURU                    25 PIPES           
+       481                                                                      
+                                                                                
+       335 JOBBY AGENCY         BENGALURU                    53 REGULATORS      
+       785                                                                      
+                                                                                
+       335 JOBBY AGENCY         BENGALURU                    45 STOVES          
+       200                                                                      
+                                                                                
+
+ AGENCY_ID NAME                 ADDRESS                BATCH_NO TYPE            
+---------- -------------------- -------------------- ---------- ----------      
+  QUANTITY                                                                      
+----------                                                                      
+       350 RAHUL AGENCY         COIMBATORE                   34 S-CYL           
+       234                                                                      
+                                                                                
+       350 RAHUL AGENCY         COIMBATORE                   72 L-CYL           
+       187                                                                      
+                                                                                
+       350 RAHUL AGENCY         COIMBATORE                   25 PIPES           
+       481                                                                      
+                                                                                
+
+ AGENCY_ID NAME                 ADDRESS                BATCH_NO TYPE            
+---------- -------------------- -------------------- ---------- ----------      
+  QUANTITY                                                                      
+----------                                                                      
+       350 RAHUL AGENCY         COIMBATORE                   53 REGULATORS      
+       785                                                                      
+                                                                                
+       350 RAHUL AGENCY         COIMBATORE                   45 STOVES          
+       200                                                                      
+                                                                                
+       369 ANIKET AGENCY        BILANGIR                     34 S-CYL           
+       234                                                                      
+                                                                                
+
+ AGENCY_ID NAME                 ADDRESS                BATCH_NO TYPE            
+---------- -------------------- -------------------- ---------- ----------      
+  QUANTITY                                                                      
+----------                                                                      
+       369 ANIKET AGENCY        BILANGIR                     72 L-CYL           
+       187                                                                      
+                                                                                
+       369 ANIKET AGENCY        BILANGIR                     25 PIPES           
+       481                                                                      
+                                                                                
+       369 ANIKET AGENCY        BILANGIR                     53 REGULATORS      
+       785                                                                      
+                                                                                
+
+ AGENCY_ID NAME                 ADDRESS                BATCH_NO TYPE            
+---------- -------------------- -------------------- ---------- ----------      
+  QUANTITY                                                                      
+----------                                                                      
+       369 ANIKET AGENCY        BILANGIR                     45 STOVES          
+       200                                                                      
+                                                                                
+
+25 rows selected.
+
+SQL> set serveroutput on;
+SQL> create or replace trigger new_bill
+  2  before
+  3  insert or update
+  4  on bill
+  5  for each row
+  6  when(NEW.bill_id>0)
+  7  begin
+  8  :NEW.amount:= :NEW.amount-:NEW.amount*0.3;
+  9  END;
+ 10  /
+
+Trigger created.
+
+SQL> insert into bill values (2902,4000,10880);
+insert into bill values (2902,4000,10880)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (C##AGAIN.SYS_C0016282) violated - parent key 
+not found 
+
+
+SQL> insert into bill values(2902,4000,10882);
+insert into bill values(2902,4000,10882)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (C##AGAIN.SYS_C0016282) violated - parent key 
+not found 
+
+
+SQL> insert into customers values(10882,'Fabien Centonze','Nice,France',8561237854);
+
+1 row created.
+
+SQL> insert into bill values (2902,4000,10882);
+
+1 row created.
+
+SQL> select * from bill;
+
+   BILL_ID     AMOUNT CUSTOMER_ID                                               
+---------- ---------- -----------                                               
+      2890       3300       10387                                               
+      2892       3100       10795                                               
+      2894       2800       10732                                               
+      2896       3700       10894                                               
+      2900       4500       10338                                               
+      2902       2800       10882                                               
+
+6 rows selected.
+
+SQL> select * from LPG;
+
+       GID WEIGH TYPE                                                           
+---------- ----- -----                                                          
+       234 15    S-CYL                                                          
+       238 15    S-CYL                                                          
+       456 20    L-CYL                                                          
+       472 20    L-CYL                                                          
+       489 20    L-CYL                                                          
+
+SQL> select * from stock;
+
+  BATCH_NO TYPE         QUANTITY                                                
+---------- ---------- ----------                                                
+        34 S-CYL             234                                                
+        72 L-CYL             187                                                
+        25 PIPES             481                                                
+        53 REGULATORS        785                                                
+        45 STOVES            200                                                
+
+SQL> create or replace procedure increase_quantity(batch_no number) IS
+  2  current_quantity number;
+  3  empty_stock exception;
+  4  begin
+  5  select quantity into current_quantity from stock
+  6  where n;
+  7  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> drop procedure increase_quantity;
+
+Procedure dropped.
+
+SQL> create or replace procedure increase_quantity(batch_id number) IS
+  2  current_quantity number;
+  3  empty_stock exception;
+  4  begin
+  5  select quantity into current_quantity from stock
+  6  where batch_no=batch_id;
+  7  IF current_quantity Is 0 THEN
+  8  Raise empty_stock;
+  9  ELSE
+ 10  update stock
+ 11  set quantity=quantity+10
+ 12  where batch_no=batch_id;
+ 13  END IF;
+ 14  EXCEPTION
+ 15  WHEN NO_DATA_FOUND THEN
+ 16  dbms_output.put_line('No such batch number');
+ 17  WHEN empty_stock THEN
+ 18  dbms_output.put_line('Stock is empty');
+ 19  END increase_quantity;
+ 20  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> drop procedure increase_quantity;
+
+Procedure dropped.
+
+SQL> create or replace procedure increase_quantity(batch_id number) IS
+  2  current_quantity number;
+  3  empty_stock exception;
+  4  begin
+  5  select quantity into current_quantity from stock
+  6  where batch_no=batch_id;
+  7  IF current_quantity=0 THEN
+  8  Raise empty_stock;
+  9  ELSE
+ 10  update stock
+ 11  set quantity=quantity*2
+ 12  where batch_no=batch_id;
+ 13  END IF;
+ 14  EXCEPTION
+ 15  WHEN NO_DATA_FOUND THEN
+ 16  dbms_output.put_line('No such batch number');
+ 17  WHEN empty_stock THEN
+ 18  dbms_output.put_line('Stock is empty');
+ 19  END increase_quantity;
+ 20  /
+
+Procedure created.
+
+SQL> increase_quantity(45);
+SP2-0734: unknown command beginning "increase_q..." - rest of line ignored.
+SQL> declare
+  2  x number;
+  3  begin
+  4  x:=45;
+  5  increase_quantity(x);
+  6  end;
+  7  /
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from stock;
+
+  BATCH_NO TYPE         QUANTITY                                                
+---------- ---------- ----------                                                
+        34 S-CYL             234                                                
+        72 L-CYL             187                                                
+        25 PIPES             481                                                
+        53 REGULATORS        785                                                
+        45 STOVES            400                                                
+
+SQL> create or replace function total_quantity
+  2  return number
+  3  IS
+  4  total_stock(2) :=0;
+  5  begin
+  6  select sum(quantity) into total_stock
+  7  from stock;
+  8  return total_stock;
+  9  end;
+ 10  /
+
+Warning: Function created with compilation errors.
+
+SQL> create or replace function total_quantity
+  2  return number
+  3  IS
+  4  total_stock:=0;
+  5  begin
+  6  select sum(quantity) into total_stock
+  7  from stock;
+  8  
+  9  return totaL_stock;
+ 10  end;
+ 11  /
+
+Warning: Function created with compilation errors.
+
+SQL> drop function total_quantity;
+
+Function dropped.
+
+SQL> create or replace function total_quantity
+  2  return number
+  3  IS
+  4  total_stock number(2) :=0;
+  5  begin
+  6  select sum(quantity) into total_stock
+  7  from stock;
+  8  
+  9  return totaL_stock;
+ 10  ;
+ 11  /
+
+Warning: Function created with compilation errors.
+
+SQL> drop function total_quantity;
+
+Function dropped.
+
+SQL> create or replace function total_quantity
+  2  return number
+  3  IS
+  4  total_stock number(2) :=0;
+  5  begin
+  6  select sum(quantity) into total_stock
+  7  from stock;
+  8  return total_stock;
+  9  end;
+ 10  /
+
+Function created.
+
+SQL> declare
+  2  x number(2);
+  3  begin
+  4  x:= total_quantity();
+  5  dbms_output.put_line('Total quantity in stock is : '||x);
+  6  end;
+  7  /
+declare
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error: number precision too large 
+ORA-06512: at "C##AGAIN.TOTAL_QUANTITY", line 6 
+ORA-06512: at line 4 
+
+
+SQL> declare
+  2  x number;
+  3  declare
+  4  ;/
+  5  /
+declare
+*
+ERROR at line 3:
+ORA-06550: line 3, column 1: 
+PLS-00103: Encountered the symbol "DECLARE" when expecting one of the 
+following: 
+begin function pragma procedure subtype type <an identifier> 
+<a double-quoted delimited-identifier> current cursor delete 
+exists prior 
+
+
+SQL> declare
+  2  x number;
+  3  begin
+  4  x:= total_quantity();
+  5  dbms_output.put_line('Total quantity in stock is : '||x);
+  6  end;
+  7  /
+declare
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error: number precision too large 
+ORA-06512: at "C##AGAIN.TOTAL_QUANTITY", line 6 
+ORA-06512: at line 4 
+
+
+SQL> declare
+  2  x number(8);
+  3  begin
+  4  x:=total_quantity();
+  5  dbms_output.put_line('Total quantity in stock is : '||x);
+  6  end;
+  7  /
+declare
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error: number precision too large 
+ORA-06512: at "C##AGAIN.TOTAL_QUANTITY", line 6 
+ORA-06512: at line 4 
+
+
+SQL> begin
+  2  dbms_output.put_line('total quantity in stock is : '|| total_quantity());
+  3  end;
+  4  /
+begin
+*
+ERROR at line 1:
+ORA-06502: PL/SQL: numeric or value error: number precision too large 
+ORA-06512: at "C##AGAIN.TOTAL_QUANTITY", line 6 
+ORA-06512: at line 2 
+
+
+SQL> drop function total_quantity;
+
+Function dropped.
+
+SQL> create or replace function total_quantity
+  2  return number
+  3  IS
+  4  total_stock number(8) :=0;
+  5  begin
+  6  select sum(quantity) into total_stock
+  7  from stock;
+  8  return total_stock;
+  9  end;
+ 10  /
+
+Function created.
+
+SQL> declare
+  2  x number(8);
+  3  begin
+  4  x=total_quantity();
+  5  dbms_output.put_line('Total quantity in stock is : '||x);
+  6  end;
+  7  /
+x=total_quantity();
+ *
+ERROR at line 4:
+ORA-06550: line 4, column 2: 
+PLS-00103: Encountered the symbol "=" when expecting one of the following: 
+:= . ( @ % ; 
+ORA-06550: line 5, column 1: 
+PLS-00103: Encountered the symbol "DBMS_OUTPUT"  
+ORA-06550: line 5, column 57: 
+PLS-00103: Encountered the symbol ";" when expecting one of the following: 
+. ( , * % & - + / at mod remainder rem <an identifier> 
+<a double-quoted delimited-identifier> <an exponent (**)> as 
+from into || multiset bulk 
+
+
+SQL> declare
+  2  x number(8);
+  3  begin
+  4  x:=total_quantity();
+  5  dbms_output.put_line('Total quantity in stock is : '||x);
+  6  end;
+  7  /
+Total quantity in stock is : 2087                                               
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from customers;
+
+CUSTOMER_ID NAME                 ADDRESS                  MOBILE                
+----------- -------------------- -------------------- ----------                
+      10387 Anderson Silva       KTR, CHENNAI         9874561235                
+      10795 GELSON MARTINS       MCO,CHENNAI          6897451354                
+      10732 INAKI WILLIAMS       SEVILLA, BENGALURU   9684521654                
+      10894 PAULO DYBALA         TURIN, COIMBATORE    9988651423                
+      10338 GARETH BALE          WALES, CHENNAI        987461325                
+      10882 Fabien Centonze      Nice,France          8561237854                
+
+6 rows selected.
+
+SQL> declare
+  2  cid customers.customer_id%type;
+  3  cname customers.name_id%type;
+  4  caddr customers.address%type;
+  5  cursor c_customers is
+  6  select customer_id,name,address from customers;
+  7  begin
+  8  open c_customers;
+  9  LOOP
+ 10  fetch c_customers into cid,cname,caddr;
+ 11  exit when c_customers%notfound;
+ 12  dbms_output.put_line(cid ||' '||cname||' '||caddr);
+ 13  end loop;
+ 14  close c_customers;
+ 15  end;
+ 16  /
+cname customers.name_id%type;
+                *
+ERROR at line 3:
+ORA-06550: line 3, column 17: 
+PLS-00302: component 'NAME_ID' must be declared 
+ORA-06550: line 3, column 7: 
+PL/SQL: Item ignored 
+ORA-06550: line 10, column 28: 
+PLS-00320: the declaration of the type of this expression is incomplete or 
+malformed 
+ORA-06550: line 10, column 1: 
+PL/SQL: SQL Statement ignored 
+ORA-06550: line 12, column 33: 
+PLS-00320: the declaration of the type of this expression is incomplete or 
+malformed 
+ORA-06550: line 12, column 1: 
+PL/SQL: Statement ignored 
+
+
+SQL> declare
+  2  cid customers.customer_id%type;
+  3  cname customers.name%type;
+  4  caddr customers.address%type;
+  5  cursor c_customers is
+  6  select customer_id,name,address from customers;
+  7  begin
+  8  open c_customers;
+  9  LOOP
+ 10  fetch c_customers into cid,cname,caddr;
+ 11  exit when c_customers%notfound;
+ 12  dbms_output.put_line(cid ||' '||cname||' '||caddr);
+ 13  end loop;
+ 14  close c_customers;
+ 15  end;
+ 16  /
+10387 Anderson Silva KTR, CHENNAI                                               
+10795 GELSON MARTINS MCO,CHENNAI                                                
+10732 INAKI WILLIAMS SEVILLA, BENGALURU                                         
+10894 PAULO DYBALA TURIN, COIMBATORE                                            
+10338 GARETH BALE WALES, CHENNAI                                                
+10882 Fabien Centonze Nice,France                                               
+
+PL/SQL procedure successfully completed.
+
+SQL> drop cursor c_customers;
+drop cursor c_customers
+     *
+ERROR at line 1:
+ORA-00950: invalid DROP option 
+
+
+SQL> declare
+  2  cid customers.customer_id%type;
+  3  cname customers.name%type;
+  4  caddr customers.address%type;
+  5  cursor c_customers is
+  6  select customer_id,name,address from customers;
+  7  begin
+  8  open c_customers;
+  9  LOOP
+ 10  fetch c_customers into cid,cname,caddr;
+ 11  exit when c_customers%notfound;
+ 12  dbms_output.put_line(cid ||'   '||cname||'   '||caddr);
+ 13  end loop;
+ 14  close c_customers;
+ 15  end;
+ 16  /
+10387   Anderson Silva   KTR, CHENNAI                                           
+10795   GELSON MARTINS   MCO,CHENNAI                                            
+10732   INAKI WILLIAMS   SEVILLA, BENGALURU                                     
+10894   PAULO DYBALA   TURIN, COIMBATORE                                        
+10338   GARETH BALE   WALES, CHENNAI                                            
+10882   Fabien Centonze   Nice,France                                           
+
+PL/SQL procedure successfully completed.
+
+SQL> declare
+  2  total number(8);
+  3  begin
+  4  update stock
+  5  set quantity=quantity+50;
+  6  if sql%notfound then
+  7  dbms_output.put_line('No quanttity updation');
+  8  elsif sql%found then
+  9  total:= sql%rowcount
+ 10  dbms_output.put_line(total || 'quantity type updated');
+ 11  end if;
+ 12  end;
+ 13  /
+dbms_output.put_line(total || 'quantity type updated');
+*
+ERROR at line 10:
+ORA-06550: line 10, column 1: 
+PLS-00103: Encountered the symbol "DBMS_OUTPUT" when expecting one of the 
+following: 
+. ( * @ % & = - + ; < / > at in is mod remainder not rem 
+<an exponent (**)> <> or != or ~= >= <= <> and or like like2 
+like4 likec between || multiset member submultiset 
+The symbol "." was substituted for "DBMS_OUTPUT" to continue. 
+
+
+SQL> declare
+  2  total number(8);
+  3  begin
+  4  update stock
+  5  set quantity=quantity+50;
+  6  if sql%notfound then
+  7  dbms_output.put_line('No quanttity updation');
+  8  elsif sql%found then
+  9  total:= sql%rowcount;
+ 10  dbms_output.put_line(total || 'quantity type updated');
+ 11  end if;
+ 12  end;
+ 13  /
+5quantity type updated                                                          
+
+PL/SQL procedure successfully completed.
+
+SQL> declare
+  2  total number(8);
+  3  begin
+  4  update stock
+  5  set quantity=quantity+50;
+  6  if sql%notfound then
+  7  dbms_output.put_line('No quantity updation');
+  8  elsif sql%found then
+  9  total:= sql%rowcount;
+ 10  dbms_output.put_line(total || ' quantity type updated');
+ 11  end if;
+ 12  end;
+ 13  /
+5 quantity type updated                                                         
+
+PL/SQL procedure successfully completed.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> spool off;

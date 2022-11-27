@@ -1,0 +1,229 @@
+
+SQL*Plus: Release 18.0.0.0.0 - Production on Sat Jun 25 15:47:43 2022
+Version 18.4.0.0.0
+
+Copyright (c) 1982, 2018, Oracle.  All rights reserved.
+
+Enter user-name: system
+Enter password:
+Last Successful login time: Wed Jun 22 2022 19:50:38 +05:30
+
+Connected to:
+Oracle Database 18c Express Edition Release 18.0.0.0.0 - Production
+Version 18.4.0.0.0
+
+
+SQL> spool C:\Users\HP\OneDrive\Desktop\DBMSPROJECT.docx;
+SQL> create user C##OGBS identified by dbms123;
+
+User created.
+
+
+SQL> grant create session to C##OGBS;
+
+Grant succeeded.
+
+SQL> connect;
+Enter user-name: C##OGBS
+Enter password:
+Connected.
+
+SQL> connect;
+Enter user-name: system
+Enter password:
+Connected.
+
+
+SQL> grant all privileges to C##OGBS;
+
+Grant succeeded.
+
+SQL> disconnect
+Disconnected from Oracle Database 18c Express Edition Release 18.0.0.0.0 - Production
+Version 18.4.0.0.0
+SQL> connect;
+Enter user-name: C##OGBS
+Enter password:
+Connected.
+SQL> create table customer(Customer_id int,Name varchar(10),Address Varchar(20),Mobile_No int);
+
+Table created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> alter system set pdb_file_name_convert='C:\app\HP\product\18.0.0\oradata\XE\pdbseed\','C:\app\HP\product\18.0.0\oradata\XE\online_gas_booking_system\' scope=both;
+
+System altered.
+
+SQL> create pluggable database online_gas_booking_system
+  2  ADMIN USER db_admin identified by dbms10;
+
+Pluggable database created.
+
+SQL> show pdbs;
+SP2-0382: The SHOW PDBS command is not available
+SQL> connect sys@orcl as sysdba
+Enter password:
+ERROR:
+ORA-12154: TNS:could not resolve the connect identifier specified
+
+
+Warning: You are no longer connected to ORACLE.
+SQL>
+SQL> connect sys@orcl as sysdba
+Enter password:
+ERROR:
+ORA-12154: TNS:could not resolve the connect identifier specified
+
+
+SQL> show pdbs;
+SP2-0640: Not connected
+SP2-0641: "SHOW PDBS" requires connection to server
+SQL> connect system as sysdba
+Enter password:
+Connected.
+SQL> show pdbs;
+
+    CON_ID CON_NAME                       OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+         2 PDB$SEED                       READ ONLY  NO
+         3 XEPDB1                         READ WRITE NO
+         4 ONLINE_GAS_BOOKING_SYSTEM      MOUNTED
+SQL> disconnect;
+Disconnected from Oracle Database 18c Express Edition Release 18.0.0.0.0 - Production
+Version 18.4.0.0.0
+SQL> connect;
+Enter user-name: C##OGBS
+Enter password:
+Connected.
+SQL> connect sys@online_gas_booking_system as sysdba
+Enter password:
+ERROR:
+ORA-12154: TNS:could not resolve the connect identifier specified
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> alter pluggable database online_gas_booking_system open read write;
+SP2-0640: Not connected
+SQL> connect system as sysdba
+Enter password:
+Connected.
+SQL> show pdbs;
+
+    CON_ID CON_NAME                       OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+         2 PDB$SEED                       READ ONLY  NO
+         3 XEPDB1                         READ WRITE NO
+         4 ONLINE_GAS_BOOKING_SYSTEM      MOUNTED
+SQL> alter pluggable databse online_gas_booking_system open read write;
+alter pluggable databse online_gas_booking_system open read write
+                *
+ERROR at line 1:
+ORA-02000: missing DATABASE keyword
+
+
+SQL> alter pluggable database online_gas_booking_system open read write;
+
+Pluggable database altered.
+
+SQL> select status from v$instance;
+
+STATUS
+------------
+OPEN
+
+SQL> connect;
+Enter user-name: C##OBGS;
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> connect;
+Enter user-name: C##OGBS
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+SQL> connect online_gas_booking_system as sysdba
+Enter password:
+Connected.
+SQL> create table customers(customer_id int,Name varchar(10),Address varchar(20),Mobile_no int);
+
+Table created.
+
+SQL> drop table customers;
+
+Table dropped.
+
+
+SQL> create table customers(
+  2  Customer_id int NOT NULL,
+  3  Name varchar(200),
+  4  Address varchar(200),
+  5  Mobile int NOT NULL,
+  6  PRIMARY KEY(Customer_id));
+
+Table created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> create table agency(
+    Agency_id int NOT NULL,
+    Name varchar(200),
+    PRIMARY KEY(Agency_id));
+
+Table created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> create table stock(
+  2  Batch_no int,
+  3  type varchar(10),
+  4  quantity int)
+  5  /
+
+Table created.
+
+SQL> drop table stock;
+
+Table dropped.
+
+SQL> create table stock(
+    Batch_no int,
+    type varchar(10),
+    quantity int,
+    PRIMARY KEY(Batch_no));
+
+Table created.
+
+SQL> create table LPG(
+    Gid int,
+    weight varchar(5),
+    type varchar(5));
+
+Table created.
+
+
+SQL> create table Bill(
+    Bill_id int,
+    Amount int,
+    Customer_id int,
+    PRIMARY KEY(Bill_id),
+    FOREIGN KEY(Customer_id) REFERENCES customers(Customer_id));
+
+Table created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL>
